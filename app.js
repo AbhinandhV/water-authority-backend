@@ -24,7 +24,7 @@ app.use("/waterauthority",userRouter)
 app.use("/waterauthorityConnection",connectionRouter)
 
 //startserver
-app.listen(3001,()=>
+app.listen(3000,()=>
 {
    console.log("Server Running") 
 })

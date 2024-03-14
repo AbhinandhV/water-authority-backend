@@ -1,4 +1,5 @@
 const express = require("express")
+const nodemailer=require("nodemailer")
 const subadminModel = require("../Models/Admin")
 const consumermodel=require("../Models/consumer")
 const meterReaderModel=require("../Models/meterReader")
@@ -22,6 +23,44 @@ router.post("/addsubadmin", async (req, res) => {
         data:result
     })
 })
+
+
+
+
+// Create a transporter for sending emails
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: 'abhinandh9333@gmail.com',
+      pass: 'niml qswx awtj ljzv',
+    },
+  });
+  
+  // Define a route for sending emails
+  router.post('/sendEmail', (req, res) => {
+    const { to, subject, text,username,password} = req.body;
+    const mailOptions = {
+      from: 'abhinandh9333@gmail.com',
+      to,
+      subject,
+      text: `Welcome to XXX APP \n
+      \nUsername: ${username}\nPassword: ${password}\n${text}`
+    };
+  
+    // Send email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ error: 'Failed to send email' });
+      } else {
+        console.log('Email sent:', info.response);
+        res.status(200).json({ message: 'Email sent successfully' });
+      }
+    });
+  });
+
 router.post("/deletemember", async (req, res) => {
     try {
       const { _id } = req.body;
