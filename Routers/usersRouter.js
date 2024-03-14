@@ -1,4 +1,5 @@
 const express = require("express")
+const nodemailer=require("nodemailer")
 const subadminModel = require("../Models/Admin")
 const consumermodel=require("../Models/consumer")
 const meterReaderModel=require("../Models/meterReader")
@@ -22,6 +23,7 @@ router.post("/addsubadmin", async (req, res) => {
         data:result
     })
 })
+  
 router.post("/deletemember", async (req, res) => {
     try {
       const { _id } = req.body;
