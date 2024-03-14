@@ -34,19 +34,21 @@ const transporter = nodemailer.createTransport({
     secure: false,
     auth: {
       user: 'abhinandh9333@gmail.com',
-      pass: '',
+      pass: 'niml qswx awtj ljzv', // Enter your password here
     },
   });
   
   // Define a route for sending emails
   router.post('/sendEmail', (req, res) => {
-    const { to, subject, text,username,password} = req.body;
+    const { to, subject, text, username, password, name } = req.body;
     const mailOptions = {
       from: 'abhinandh9333@gmail.com',
       to,
       subject,
-      text: `Welcome to XXX APP \n
-      \nUsername: ${username}\nPassword: ${password}\n${text}`
+      text: `Welcome to XXX APP\n\nName: ${name}\nUsername: ${username}\n${text}`,
+      auth: {
+        password: password, // Use the provided password
+      }
     };
   
     // Send email
