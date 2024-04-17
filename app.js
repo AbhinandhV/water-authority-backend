@@ -8,10 +8,12 @@ const app=express()
  //Router
 const userRouter=require("./Routers/usersRouter")
 const connectionRouter=require("./Routers/connectionRouter")
+const billrouter=require("./Routers/billrouter")
 
 //middlewear
 app.use(express.json())
 app.use(cors())
+
 
  //Connection with db
 mongoose.connect("mongodb+srv://abhinandh:jazz9333@cluster0.ubk8s.mongodb.net/waterauthoritydb?retryWrites=true&w=majority",
@@ -22,6 +24,7 @@ mongoose.connect("mongodb+srv://abhinandh:jazz9333@cluster0.ubk8s.mongodb.net/wa
 //api
 app.use("/waterauthority",userRouter)
 app.use("/waterauthorityConnection",connectionRouter)
+app.use("/bill",billrouter)
 
 //startserver
 app.listen(3000,()=>

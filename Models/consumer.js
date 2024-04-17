@@ -17,6 +17,10 @@ const consumermodel=new mongoose.Schema(
             required:true,
             type:String
         },
+        housenumber:{
+            required:true,
+            type:String
+        },
         username:{
             required:true,
             type:String
