@@ -3,6 +3,7 @@ const nodemailer=require("nodemailer")
 const subadminModel = require("../Models/Admin")
 const consumermodel=require("../Models/consumer")
 const meterReaderModel=require("../Models/meterReader")
+const complaint=require("../Models/Complaint")
 const router = express.Router()
 const bcrypt = require("bcryptjs")
 const { model } = require("mongoose")
@@ -50,7 +51,7 @@ const transporter = nodemailer.createTransport({
       from: 'abhinandh9333@gmail.com',
       to,
       subject,
-      text: `Welcome to XXX APP\n\nName: ${name}\nUsername: ${username}\n${text}`,
+      text: `Welcome to Water Authority APP\n\nName: ${name}\nUsername: ${username}\n${text}`,
       auth: {
         password: password, // Use the provided password
       }
@@ -238,7 +239,10 @@ router.post("/login", async (req, res) => {
     const adminpassword = "admin";
     
     if (username === adminusername && inputpassword === adminpassword) {
+        console.log("admin login");
         return res.json({ status: "admin login success", userData: { userId: 'admin', username: adminusername } });
+    
+        
     }
 
     let data = await subadminModel.findOne({ username: username });
@@ -315,6 +319,39 @@ router.post("/searchHome",async(req,res)=>
     }
     else{
         res.json({status:"error",message:"no data found"})
+    }
+})
+router.post("/complaint",async(req,res)=>
+{
+  let data=req.body
+  console.log(data)
+  if(data)
+    {
+        let complaintmodel=new complaint(data)
+       
+        complaintmodel.save()
+        return(res.status(200).json({
+            status:"success",data:data
+        }))
+    }
+    res.json({
+        status:"data not recieved"
+    })
+    
+})
+router.post("/viewcomplaints",async(req,res)=>{
+    try {
+        let data=await complaint.find().populate("consumerId").exec()
+        return res.status(200).json({
+            status:"success",
+            data:data
+        })
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({
+            status:'error',
+            message:"internal sever error"
+        })
     }
 })
 module.exports = router
